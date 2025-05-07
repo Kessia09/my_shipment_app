@@ -49,4 +49,12 @@ public class ShipmentController {
         Shipment updated = shipmentService.updateStatus(id, request.getStatus());
         return ResponseEntity.ok(updated);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Shipment> updateShipment(@PathVariable Long id,
+                                                   @RequestBody ShipmentUpdateRequest request,
+                                                   @AuthenticationPrincipal UserDetails user) {
+        Shipment updated = shipmentService.updateShipment(id, request, user.getUsername());
+        return ResponseEntity.ok(updated);
+    }
 } 

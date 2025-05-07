@@ -26,7 +26,7 @@ public class PaymentService {
         payment.setShipment(shipment);
         payment.setAmount(shipment.getCost());
         payment.setMethod(request.getMethod());
-        payment.setSuccess(true); // Simulate always successful
+        payment.setSuccess(request.isPayNow()); // true if payNow, false if not
         payment.setTransactionId(java.util.UUID.randomUUID().toString());
         if (request.isPayNow()) {
             payment.setScheduledFor(LocalDateTime.now());
@@ -51,5 +51,21 @@ public class PaymentService {
         return paymentRepository.findAll().stream()
                 .filter(p -> transactionId.equals(p.getTransactionId()))
                 .findFirst().orElseThrow();
+    }
+
+    public List<Payment> findAll() {
+        return paymentRepository.findAll();
+    }
+
+    public Payment findById(Long id) {
+        return paymentRepository.findById(id).orElse(null);
+    }
+
+    public void deleteById(Long id) {
+        paymentRepository.deleteById(id);
+    }
+
+    public Payment save(Payment payment) {
+        return paymentRepository.save(payment);
     }
 } 

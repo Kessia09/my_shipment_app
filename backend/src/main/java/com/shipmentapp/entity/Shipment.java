@@ -46,8 +46,21 @@ public class Shipment {
 
     private LocalDateTime paymentScheduledDate;
 
+    private LocalDateTime estimatedDelivery;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        if (estimatedDelivery == null) {
+            estimatedDelivery = createdAt.plusDays(7);
+        }
+    }
+
+    public LocalDateTime getEstimatedDelivery() {
+        return estimatedDelivery;
+    }
+
+    public void setEstimatedDelivery(LocalDateTime estimatedDelivery) {
+        this.estimatedDelivery = estimatedDelivery;
     }
 } 
